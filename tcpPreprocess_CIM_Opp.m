@@ -28,6 +28,7 @@ waitfor(hfig);
 OPTO_MODE = ppCfg.OPTO_MODE;
 PULSE_SIM_MODE = ppCfg.PULSE_SIM_MODE;
 MONKEYLOGIC_MODE = false; % manually off for now
+VONFREY_MODE = false; % manually off for now
 data_channel = ppCfg.data_channel;
 data_channel2 = ppCfg.data_channel2;
 opto_channel = ppCfg.opto_channel;
@@ -264,7 +265,7 @@ end
 %% Grab opto pulses
 if OPTO_MODE
     % Grab the pulses
-    opto_pulse_table = tcpDatasnapper(data(opto_channel,:),data(datachannel,:), 'max', 'pulsetopulse');  
+    opto_pulse_table = tcpDatasnapper(data(opto_channel,:),data(ch1_pulse_ind,:), 'max', 'pulsetopulse');  
     % Sync the number of pulses
     opto_pulse_table = opto_pulse_table(1 : n_points, :);
 else
@@ -398,8 +399,8 @@ ylim([1 5])
 ylabel('Raw voltage')
 title((strcat(date, '_', mouse, '_', run)),'Interpreter', 'none')   
 ax2 = subplot(4,1,3);
-plot((1 : n_points)'/freq, [ML_pulse_table(:,2)])  
-ylabel('Shock')
+plot((1 : n_points)'/freq, [opto_pulse_table(:,2)])  
+ylabel('Opto')
 xlabel('Time (s)')
 ax3 = subplot(4,1,4);
 plot((1 : n_points)'/freq, speed_upsampled)  
